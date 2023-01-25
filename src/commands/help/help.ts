@@ -1,5 +1,5 @@
 import {EmbedBuilder, Message, PermissionsBitField} from "discord.js";
-import {PREFIX, THEME} from "../../index";
+import {CONTROL_GUILD, PREFIX, THEME} from "../../index";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -10,7 +10,7 @@ export const cmd = async (message: Message) => {
 
     if (!message.content.toLowerCase().startsWith(PREFIX + "help")) return;
 
-    const is_control_guild = message.guildId === "859736561830592522";
+    const is_control_guild = message.guildId === CONTROL_GUILD;
 
     const help_embed = new EmbedBuilder()
         .setTitle("Commands for Kai Premium giveaway")
@@ -43,13 +43,18 @@ export const cmd = async (message: Message) => {
 
         const command_visibility = command_info.split("\n")[1] === "public";
         const command_description = command_info.split("\n")[0];
-
-        if (!command_visibility && is_control_guild) {
-            //this is to make sure not to display private commands to other servers
-            description += `• ${PREFIX}${name}: ${command_description} \n`
+        if (!command_visibility) {
+            // check if the server is the control guild
+            if (is_control_guild) {
+                // add the command to the description string
+                description += `• ${PREFIX}${name}: ${command_description} \n`;
+            }
+            // if the server is not the control guild, do not add the command to the description string
         } else {
-            description += `• ${PREFIX}${name}: ${command_description} \n`
+            // command visibility is not private, add the command to the description string
+            description += `• ${PREFIX}${name}: ${command_description} \n`;
         }
+
     })
 
     help_embed.setDescription("```" + description + "```");

@@ -1,4 +1,4 @@
-import {Client, IntentsBitField} from "discord.js";
+import {Client, GuildBasedChannel, GuildChannel, IntentsBitField, PermissionsBitField} from "discord.js";
 import * as path from "path";
 import {Sequelize} from "sequelize";
 import * as fs from "fs";
@@ -45,8 +45,9 @@ sequelize.sync({force: true}).then(() => {
 
 
 
-client.once('ready', (client) => {
+client.once('ready', async (client) => {
     listen_message(client);
     console.log("ready");
+
 })
 client.login(process.env._TOKEN);
