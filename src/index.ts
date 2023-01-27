@@ -6,8 +6,6 @@ import {listen_message} from "./listeners/message";
 import {
     giveaway_sync,
 } from "./giveaway/giveaway";
-import cron from "node-cron";
-import {get_codes} from "./commands/show-codes/show-codes";
 
 
 export const PREFIX = "!";
