@@ -1,4 +1,4 @@
-import {Client, GuildBasedChannel, GuildChannel, IntentsBitField, PermissionsBitField} from "discord.js";
+import {Client, GuildBasedChannel, GuildChannel, IntentsBitField, Message, PermissionsBitField} from "discord.js";
 import * as path from "path";
 import {Sequelize} from "sequelize";
 import * as fs from "fs";
@@ -7,6 +7,7 @@ import {
     giveaway_sync,
 } from "./giveaway/giveaway";
 import cron from "node-cron";
+import {get_codes} from "./commands/show-codes/show-codes";
 
 
 export const PREFIX = "!";
@@ -27,7 +28,7 @@ const client = new Client({
 })
 
 //Initializing sequelize for the database
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
     dialect: "sqlite",
     storage: "gifts.db",
     logging: false
@@ -41,7 +42,7 @@ fs.readdirSync(path.join(...modelDir))
         model.model(sequelize);
     })
 
-sequelize.sync({alter: true}).then(() => {
+sequelize.sync({alter: true}).then(async () => {
     //only login when the models are synced to avoid conflicts
     client.login(process.env._TOKEN);
 });
@@ -55,3 +56,12 @@ client.once('ready', async (client) => {
     console.log("ready");
 })
 client.login(process.env._TOKEN);
+
+
+//a simple function to check if one have perms to run commands
+export const check_permission = (msg: Message, cmd: string): boolean => {
+    if (!msg.content.startsWith(PREFIX + cmd)) return false;
+    if (!msg.member?.permissions.has(PermissionsBitField.Flags.Administrator)) return false;
+    if(msg.guildId !== CONTROL_GUILD) return false;
+    return true;
+}

@@ -1,14 +1,12 @@
 import {EmbedBuilder, Message, PermissionsBitField} from "discord.js";
-import {CONTROL_GUILD, PREFIX, THEME} from "../../index";
+import {check_permission, CONTROL_GUILD, PREFIX, THEME} from "../../index";
 import * as fs from "fs";
 import * as path from "path";
 
 
 //command handler for help command
 export const cmd = async (message: Message) => {
-    if (!message.member?.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return;
-
-    if (!message.content.toLowerCase().startsWith(PREFIX + "help")) return;
+    if(!check_permission(message, "help")) return;
 
     const is_control_guild = message.guildId === CONTROL_GUILD;
 
@@ -68,4 +66,4 @@ export const cmd = async (message: Message) => {
 }
 
 export const config = "view all the commands \n"
-    + "public"
+    + "private"
