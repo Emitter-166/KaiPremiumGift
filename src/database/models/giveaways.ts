@@ -6,19 +6,10 @@ export const model = (sequelize: Sequelize) => {
             type: CHAR(50),
             allowNull: false
         },
-        channelId: {
-            type: CHAR(50),
-            allowNull: false
-        },
-        messageId: {
-            type: CHAR(50),
-            allowNull: false
-        },
         threadId: {
             type: CHAR(50),
             allowNull: true
         }
-
     }, {
         timestamps: false,
         indexes: [

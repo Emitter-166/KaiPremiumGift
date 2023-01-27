@@ -7,7 +7,8 @@ export const model = (sequelize: Sequelize) => {
             allowNull: false
         },
         used: {
-            type: BOOLEAN
+            type: BOOLEAN,
+            defaultValue: false
         },
         usedByUser: {
             type: CHAR(50)

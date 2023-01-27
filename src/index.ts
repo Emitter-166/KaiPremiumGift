@@ -3,6 +3,10 @@ import * as path from "path";
 import {Sequelize} from "sequelize";
 import * as fs from "fs";
 import {listen_message} from "./listeners/message";
+import {
+    giveaway_sync,
+} from "./giveaway/giveaway";
+import cron from "node-cron";
 
 
 export const PREFIX = "!";
@@ -37,7 +41,7 @@ fs.readdirSync(path.join(...modelDir))
         model.model(sequelize);
     })
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({alter: true}).then(() => {
     //only login when the models are synced to avoid conflicts
     client.login(process.env._TOKEN);
 });
@@ -47,7 +51,7 @@ sequelize.sync({force: true}).then(() => {
 
 client.once('ready', async (client) => {
     listen_message(client);
+    await giveaway_sync(sequelize, client);
     console.log("ready");
-
 })
 client.login(process.env._TOKEN);
