@@ -6,7 +6,7 @@ import {listen_message} from "./listeners/message";
 import {
     giveaway_sync,
 } from "./giveaway/giveaway";
-
+import ActivityType from 'discord.js';
 
 export const PREFIX = "!";
 export const CONTROL_GUILD = "859736561830592522";
@@ -22,7 +22,7 @@ require('dotenv')
 //Initializing the bot
 const Flags = IntentsBitField.Flags;
 const client = new Client({
-    intents: [Flags.Guilds, Flags.GuildMembers, Flags.GuildMessages, Flags.MessageContent]
+    intents: [Flags.Guilds, Flags.GuildMembers, Flags.GuildMessages, Flags.MessageContent],
 })
 
 //Initializing sequelize for the database
@@ -51,9 +51,12 @@ sequelize.sync({alter: true}).then(async () => {
 client.once('ready', async (client) => {
     listen_message(client);
     await giveaway_sync(sequelize, client);
+
+    client.user.setStatus("online")
+    client.user.setActivity("Getting ready to gift another Magic Kai today...", { type: ActivityType.ActivityType.Playing})
+
     console.log("ready");
 })
-client.login(process.env._TOKEN);
 
 
 //a simple function to check if one have perms to run commands
