@@ -43,9 +43,9 @@ export const giveaway_process = async (serverId: string, sequelize: Sequelize, c
             "code: " + code + "\n" +
             "available: " + premium.available + " codes**", client)) return false;
 
-        if (!await send_thread(threadId, client, "Kai premium winner!", `<@${winner.id}> You just won kai premium 🥳🥳`, winner.id)) return false;
-        await send_dm(winner.user, "Congrats!", "" +
-            `**Congrats on winning Kai premium! Your code is ||\"${code}\"|| . Please DM <@907606359405633536> \"I want to redeem my gift\" and send her the code :)**`)
+        if (!await send_thread(threadId, client, "Magic Kai winner!", `<@${winner.id}> you just won Magic Kai for a week! 💫 🥳`, winner.id)) return false;
+        await send_dm(winner.user, "It's your lucky day!", "" +
+            `You just won Magic Kai for a week, and we hope you have the best time seeing all that Magic Kai can do. Your special code is ||\\"${code}\\"||. Please DM <@907606359405633536> **"I want to redeem my gift"** and send her your code. :slight_smile:`)
         return true;
     } catch (err) {
         console.log("Err on giveaway_process()")

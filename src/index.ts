@@ -1,4 +1,4 @@
-import {Client, GuildBasedChannel, GuildChannel, IntentsBitField, Message, PermissionsBitField} from "discord.js";
+import {Client,IntentsBitField, Message, PermissionsBitField} from "discord.js";
 import * as path from "path";
 import {Sequelize} from "sequelize";
 import * as fs from "fs";
@@ -10,7 +10,7 @@ import {
 
 export const PREFIX = "!";
 export const CONTROL_GUILD = "859736561830592522";
-export const THEME = "#FFFFFF";
+export const THEME = "#4f3e6f";
 
 //setting up env
 require('dotenv')
